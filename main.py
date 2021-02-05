@@ -84,3 +84,30 @@ print(cl)
         #    fpix = row
         #if row > fpix:
         #    GZ[row][pix] = 0
+
+    
+#erosion
+mtx = [[1],
+       [1],
+       [1]]
+       
+ct = (1,0)
+
+for row in range(0,len(Z)):
+    for pix in range(0,len(Z[row])):
+        new_px = None
+        for mtxrow in range(0, len(mtx)):
+            for mtxpix in range(0, len(mtx[mtxrow])):
+                offx = mtxpix - ct[1]
+                offy = mtxrow - ct[0]
+                if row+offy >= 0 and row+offy < len(Z) and pix+offx >= 0 and pix+offx < len(Z[row]):
+                    new_px = Z[row+offy][pix+offx] if new_px is None else min(Z[row+offy][pix+offx], new_px)
+        Ze[row][pix] = new_px
+    #min per column
+    for pix in range(0,len(Z[0])):  
+    prim_pix = -1
+    for row in range(0, len(Z)): 
+        if prim_pix < 0 and Z[row][pix] > 0:
+            prim_pix = row
+        elif Z[row][pix] > 0 and prim_pix >= 0:
+            Z[row][pix] = 0
